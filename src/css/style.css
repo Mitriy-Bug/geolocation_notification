@@ -1,0 +1,61 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #edefec;
+}
+
+h1 {
+    margin: 0;
+    padding: 0;
+}
+#root {
+    font-family: 'Roboto', sans-serif;
+    color: #100c08;
+    padding-top: 20px;
+}
+
+.container {
+    width: 60%;
+    min-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.btn {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    user-select: none;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: .25rem;
+    border: 1px solid #034e9f;
+    cursor: pointer;
+    background-color: #0069d9;
+    color: white;
+    margin: 12px 0;
+}
+.collapsible-content{
+    border-radius: 12px;
+    transition: opacity 1.5s ease;
+    opacity: 1;
+
+}
+.hidden {
+    opacity: 0;
+    height: 0;
+    font-size: 0;
+    transition: opacity 0.5s ease;
+}
+.visible{
+    opacity: 1;
+    padding: 18px;
+    border: 1px solid #d9d9da;
+
+}
+
