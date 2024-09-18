@@ -26,9 +26,6 @@ export default class AudioPost {
             });
 
             recorder.addEventListener("dataavailable", (event) => {
-                if(this.false === false){
-                    event.data = null;
-                }
                 console.log(event.data);
                 this.chunks.push(event.data);
 
@@ -37,6 +34,10 @@ export default class AudioPost {
             recorder.addEventListener("stop", () => {
                 if(this.false === false){
                     this.createAudioPost(latitude, longitude)
+                    const blob = new Blob(this.chunks);
+
+                    const audioPlayer = document.querySelector(".audio");
+                    audioPlayer.src = URL.createObjectURL(blob);
                 }
                 audioRecord.classList.remove("hidden");
                 audioControl.classList.add("hidden");
@@ -46,15 +47,15 @@ export default class AudioPost {
             recorder.start();
 
             audioStop.addEventListener("click", () => {
-                this.false = false;
                 recorder.stop();
                 stream.getTracks().forEach((track) => track.stop());
-
+                this.false = false;
             });
             audioRemove.addEventListener("click", () => {//отменяем запись
-                this.false = true;
+                this.chunks = [];
                 recorder.stop();
                 stream.getTracks().forEach((track) => track.stop());
+                this.false = true;
                 //stream.getTracks().forEach((track) => track.stop());
                 //stream.removeTrack(stream.getTracks());
                 audioRecord.classList.remove("hidden");
@@ -90,9 +91,5 @@ export default class AudioPost {
                     </div>
                     `;
         this.container.insertAdjacentHTML("afterBegin", postAudio);
-        const blob = new Blob(this.chunks);
-
-        const audioPlayer = document.querySelector(".audio");
-        audioPlayer.src = URL.createObjectURL(blob);
     }
 }
