@@ -7,10 +7,23 @@
   <title>Document</title>
 </head>
 <body>
-  <div class="containerPost">
-    <div class="containerPost-futer">
-      <input data-id="post" name="post" placeholder="Post something here..." class="inputPost" required>
+  <div class="container">
+    <div class="container-input position-relative">
+      <input data-id="post" name="post" placeholder="Напишите ваше сообщение..." class="inputPost" required>
+      <button type="button" class="btn-microphone"></button>
+      <div class="audio-control hidden">
+        <button class="audio-ok">OK</button>
+        <div class="counter">0</div>
+        <button class="audio-cancel">Отмена</button>
+        </div>
+      <div>
+
+      </div>
+
     </div>    
   </div>
+  <dialog class="modal" class="p-3">
+    <button class="btn btn-close" type="button">Закрыть окно</button>
+  </dialog>
 </body>
 </html>

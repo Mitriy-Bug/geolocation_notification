@@ -2,22 +2,20 @@ export default class CreatePost {
     constructor(container) {
         this.container = container;
     }
-
     //создаем пост и добавляем в html
     showPost(latitude, longitude, val) {
         const postHtml = `
-        <div class="itemPost">
-      <div class="itemsHight">
-        <div class="itemsPost-left">
-          <p class="text">
-           ${val}
-          </p>
-          
+        <div class="itemPost border border-radius p-4 mx-3">
+            <div class="itemsPost-content mb-2">
+              <p class="itemsPost-content-text">
+               ${val}
+              </p>
+            </div>
+            <div class="itemsPost-footer">
+                <div class="item-footer itemsPost-footer-date">${new Date().toLocaleString()}</div>
+                <div class="item-footer itemsPost-footer-coord">[${latitude}, ${longitude}]</div>
+            </div>                  
         </div>
-        <div class="itemsPost-right">${new Date().toLocaleString()}</div>                  
-      </div>
-      <div class="coordinates">[${latitude}, ${longitude}]</div>
-    </div>
         `;
         this.container.insertAdjacentHTML("afterBegin", postHtml);
     }

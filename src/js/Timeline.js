@@ -1,14 +1,47 @@
 import CreatePost from "./createPost";
+import AudioPost from "./audio";
 
 export default class Timeline {
     constructor(container) {
         this.container = container;
         this.CreatePost = new CreatePost(this.container);
+        this.AudioPost = new AudioPost(this.container);
+        this.modal = document.querySelector('.modal');
+        this.close = document.querySelector('.btn-close');
+        if(this.close){
+            this.close.addEventListener('click', () => {
+                this.modal.close();
+            })
+        }
     }
 
-    //метод для ввода и отправки текста поста
     initial() {
         this.inputPost = this.container.querySelector(".inputPost"); //получаем поле ввода поста
+        this.audioRecord = document.querySelector(".btn-microphone");
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+
+                        this.latitude = position.coords.latitude;
+                        this.longitude = position.coords.longitude;
+                        this.AudioPost.recordAudio(this.latitude, this.longitude, this.audioRecord);
+
+                    },
+                    (error) => {
+                        console.error(error);
+                        this.modal.insertAdjacentHTML("afterbegin", `
+                          <h3 class="text-center mb-3 fw-bold">
+                            Для продолжения пользования данным сайтом вы должны дать разрешение на использование Ваших геоданных
+                          </h3>
+                          `);
+                            this.modal.showModal();
+                        },
+                    );
+                } else {
+                    console.log("browser geo API - false");
+                }
+
 
         const handlerClick = (e) => {
             this.text = e.target.value; //значение поля ввода поста
@@ -16,26 +49,28 @@ export default class Timeline {
             this.inputPost.removeEventListener("click", handlerClick); //удаляем обработчик
             this.inputPost.value = ""; //очищаем поле ввода поста
         };
+        // const handlerAudio = () => {
+        //   this.inputPost.removeEventListener("click", handlerAudio); //удаляем обработчик
+        // };
 
-        this.inputPost.addEventListener("change", handlerClick); //вешаем обраблтчик на поле ввода поста
+        this.inputPost.addEventListener("change", handlerClick); //вешаем обработчик на поле ввода поста
+        //this.audioRecord.addEventListener("click", handlerAudio); //вешаем обработчик на кнопку микрофона
+
+
     }
 
     //метод проверки доступности координат
     location(text) {
-        if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const { latitude, longitude } = position.coords;
-                    this.CreatePost.showPost(latitude, longitude, text);
-                },
+                         this.CreatePost.showPost(latitude, longitude, text);
+                 },
                 (error) => {
                     console.error(error);
                     this.ManualCoords(text);
                 },
             );
-        } else {
-            console.log("browser geo API - false");
-        }
     }
 
     //метод для ввода координат вручную
@@ -57,7 +92,7 @@ export default class Timeline {
             e.preventDefault();
             this.coordValue = this.inputManualCoord.value; //значение поля input окна для ручного ввода
             this.validCoord = this.checkCoordinatesValidity(this.coordValue); //объект с широтой и долготой из метода heckCoordinatesValidity()
-            console.log(this.validCoord);
+            //console.log(this.validCoord);
             if (!Object.keys(this.validCoord).length) {
                 //если объект пустой
                 alert("Вы неправильно ввели координаты");
